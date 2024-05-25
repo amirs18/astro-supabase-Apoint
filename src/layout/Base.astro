@@ -7,6 +7,8 @@ const description = "Astro and Supabase demo app";
 const { title } = Astro.props;
 const ogImageURL = new URL("hero.png", Astro.site).href;
 const canonicalURL = new URL(Astro.url).href;
+
+const { email } = Astro.locals;
 ---
 
 <html lang="en" class="h-full w-full">
@@ -34,25 +36,47 @@ const canonicalURL = new URL(Astro.url).href;
         class="flex items-baseline justify-end sm:justify-between p-4 max-w-screen-xl mx-auto"
       >
         <a href="/" class="hidden sm:block font-semibold dark:text-white"
-          >Astro</a
+          >APoint</a
         >
         <div>
           <ul class="font-medium flex items-baseline gap-8">
             <li>
               <a
                 href="/dashboard"
-                class="block text-zinc-900 dark:text-gray-200">Dashboard</a
+                class="block text-zinc-900 dark:text-gray-200"
               >
+                Dashboard
+              </a>
             </li>
+            {
+              email ?? (
+                <>
+                  <li>
+                    <a
+                      href="/register"
+                      class="block text-zinc-900 dark:text-gray-200"
+                    >
+                      Register
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/signin"
+                      class="block text-zinc-900 dark:text-gray-200"
+                    >
+                      Sign in
+                    </a>
+                  </li>
+                </>
+              )
+            }
             <li>
-              <a href="/register" class="block text-zinc-900 dark:text-gray-200"
-                >Register</a
+              <a
+                href="/provider"
+                class="block text-zinc-900 dark:text-gray-200"
               >
-            </li>
-            <li>
-              <a href="/signin" class="block text-zinc-900 dark:text-gray-200"
-                >Sign in</a
-              >
+                Provider
+              </a>
             </li>
           </ul>
         </div>

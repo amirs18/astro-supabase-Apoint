@@ -1,0 +1,10 @@
+---
+import Base from "../layout/Base.astro";
+import { supabase } from "../lib/supabase";
+
+const { data } = await supabase.rpc("is_provider");
+---
+
+<Base title="provider">
+  {data && data > 0 ? <div>show me</div> : <div>dont</div>}
+</Base>

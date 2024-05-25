@@ -28,6 +28,14 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE OR REPLACE FUNCTION "public"."is_provider"() RETURNS integer
+    LANGUAGE "sql"
+    AS $$
+  select count(*) from providers where owner_user_id = auth.uid()
+$$;
+
+ALTER FUNCTION "public"."is_provider"() OWNER TO "postgres";
+
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
@@ -208,6 +216,10 @@ ALTER TABLE ONLY "public"."providers_services"
 
 CREATE POLICY "Enable insert for users based on user_id" ON "public"."appointments" FOR INSERT WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
 
+CREATE POLICY "add new providers" ON "public"."providers" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+CREATE POLICY "alow everyone to see" ON "public"."providers" FOR SELECT USING (true);
+
 ALTER TABLE "public"."appointments" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."availability" ENABLE ROW LEVEL SECURITY;
@@ -224,6 +236,10 @@ GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."is_provider"() TO "anon";
+GRANT ALL ON FUNCTION "public"."is_provider"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."is_provider"() TO "service_role";
 
 GRANT ALL ON TABLE "public"."appointments" TO "anon";
 GRANT ALL ON TABLE "public"."appointments" TO "authenticated";

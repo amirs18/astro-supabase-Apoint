@@ -1,32 +1,242 @@
 ---
 import Base from "../layout/Base.astro";
-import Supabase from "../icons/Supabase.astro";
-import AstroIcon from "../icons/AstroIcon.astro";
+import APopintIcon from "../icons/apointIcon.astro";
+import ApointIcon from "../icons/apointIcon.astro";
 export const prerender = true;
-const title = "Supabase and Astro Demo";
+const title = "Apoint";
 ---
 
 <Base title={title}>
-  <main class="flex-1 flex flex-col gap-4 items-center p-4 justify-center">
-    <h1 class="text-2xl sm:text-4xl font-bold text-center">{title}</h1>
-    <ul class="flex gap-6 items-center font-bold text-2xl mt-6">
-      <li
-        class="dark:bg-zinc-800 bg-white border-t dark:border-zinc-700 h-20 w-20 border-transparent rounded-lg shadow dark:shadow-none flex items-center justify-center"
+  <div class="flex flex-col min-h-[100dvh]">
+    <main class="flex-1">
+      <section class="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <div class="container px-4 md:px-6">
+          <div
+            class="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]"
+          >
+            <div class="flex flex-col justify-center space-y-4">
+              <div class="space-y-2">
+                <h1
+                  class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                >
+                  Streamline Your Appointments
+                </h1>
+                <p
+                  class="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400"
+                >
+                  Manage your client appointments with ease. Our intuitive
+                  calendar, automated notifications, and detailed reporting make
+                  it simple to keep your business running smoothly.
+                </p>
+              </div>
+              <div class="flex flex-col gap-2 min-[400px]:flex-row">
+                <a
+                  class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                  href="#"
+                  rel="ugc"
+                >
+                  Sign Up
+                </a>
+                <a
+                  class="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+                  href="#"
+                  rel="ugc"
+                >
+                  Learn More
+                </a>
+              </div>
+            </div>
+<ApointIcon/>
+          </div>
+        </div>
+      </section>
+      <section class="w-full py-12 md:py-24 lg:py-32">
+        <div class="container px-4 md:px-6">
+          <div
+            class="flex flex-col items-center justify-center space-y-4 text-center"
+          >
+            <div class="space-y-2">
+              <div
+                class="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800"
+              >
+                Key Features
+              </div>
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Streamline Your Workflow
+              </h2>
+              <p
+                class="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+              >
+                Our appointment management platform offers a suite of tools to
+                help you stay organized and efficient.
+              </p>
+            </div>
+          </div>
+          <div
+            class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12"
+          >
+            <div class="flex flex-col justify-center space-y-4">
+              <div class="grid gap-1">
+                <h3 class="text-xl font-bold">Calendar Management</h3>
+                <p class="text-gray-500 dark:text-gray-400">
+                  Easily schedule and manage appointments with our intuitive
+                  calendar interface.
+                </p>
+              </div>
+              <div class="grid gap-1">
+                <h3 class="text-xl font-bold">Client Notifications</h3>
+                <p class="text-gray-500 dark:text-gray-400">
+                  Automatically send appointment reminders and updates to your
+                  clients.
+                </p>
+              </div>
+              <div class="grid gap-1">
+                <h3 class="text-xl font-bold">Detailed Reporting</h3>
+                <p class="text-gray-500 dark:text-gray-400">
+                  Generate comprehensive reports on your business performance
+                  and client activity.
+                </p>
+              </div>
+            </div>
+            <img
+              src="/placeholder.svg"
+              width="550"
+              height="310"
+              alt="Features"
+              class="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+            />
+          </div>
+        </div>
+      </section>
+      <section
+        class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800"
       >
-        <AstroIcon />
-      </li>
-       &plus;
-      <li
-        class="dark:bg-zinc-800 bg-white border-t dark:border-zinc-700 h-20 w-20 border-transparent rounded-lg shadow dark:shadow-none flex items-center justify-center"
-      >
-        <Supabase />
-      </li>
-    </ul>
-    <p class="mt-6 max-w-prose">This page was pre-rendered at build time</p>
-    <a
-      href="https://github.com/kevinzunigacuellar/astro-supabase"
-      class="font-mono max-w-prose underline underline-offset-2 hover:text-blue-700 text-blue-600 dark:text-blue-500 dark:hover:text-blue-400"
-      >Source code on GitHub</a
+        <div
+          class="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10"
+        >
+          <div class="space-y-2">
+            <h2 class="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+              Trusted by Businesses of All Sizes
+            </h2>
+            <p
+              class="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+            >
+              Our appointment management platform is used by businesses across a
+              wide range of industries.
+            </p>
+          </div>
+          <div class="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+              href="#"
+              rel="ugc"
+            >
+              Sign Up
+            </a>
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+              href="#"
+              rel="ugc"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="w-full py-12 md:py-24 lg:py-32 border-t">
+        <div
+          class="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10"
+        >
+          <div class="space-y-3">
+            <h2
+              class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+            >
+              Testimonials
+            </h2>
+            <p
+              class="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+            >
+              Hear what our customers have to say about our appointment
+              management platform.
+            </p>
+          </div>
+          <div class="divide-y rounded-lg border">
+            <div
+              class="grid w-full grid-cols-3 items-stretch justify-center divide-x md:grid-cols-3"
+            >
+              <div
+                class="mx-auto flex w-full items-center justify-center p-4 sm:p-8"
+              >
+                <div class="grid gap-2 text-center">
+                  <div class="text-3xl font-bold">"</div>
+                  <p class="text-gray-500 dark:text-gray-400">
+                    This platform has been a game-changer for our business. The
+                    calendar management and client notifications have saved us
+                    so much time and hassle.
+                  </p>
+                  <div class="text-sm font-medium">
+                    - Jane Doe, Owner, Acme Consulting
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mx-auto flex w-full items-center justify-center p-4 sm:p-8"
+              >
+                <div class="grid gap-2 text-center">
+                  <div class="text-3xl font-bold">"</div>
+                  <p class="text-gray-500 dark:text-gray-400">
+                    I was hesitant to try a new appointment management platform,
+                    but this one has exceeded my expectations. The reporting
+                    features are incredibly helpful for tracking our business
+                    performance.
+                  </p>
+                  <div class="text-sm font-medium">
+                    - John Smith, CEO, XYZ Enterprises
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mx-auto flex w-full items-center justify-center p-4 sm:p-8"
+              >
+                <div class="grid gap-2 text-center">
+                  <div class="text-3xl font-bold">"</div>
+                  <p class="text-gray-500 dark:text-gray-400">
+                    I love how easy it is to use this platform. The interface is
+                    intuitive, and the customer support has been fantastic. I
+                    would highly recommend it to any business
+                  </p>
+                  <div class="text-sm font-medium">
+                    - Sarah Lee, Manager, Wellness Clinic
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer
+      class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t"
     >
-  </main>
+      <p class="text-xs text-gray-500 dark:text-gray-400">
+        © 2024 Appointment Manager. All rights reserved.
+      </p>
+      <nav class="sm:ml-auto flex gap-4 sm:gap-6">
+        <a
+          class="text-xs hover:underline underline-offset-4"
+          href="#"
+          rel="ugc"
+        >
+          Terms of Service
+        </a>
+        <a
+          class="text-xs hover:underline underline-offset-4"
+          href="#"
+          rel="ugc"
+        >
+          Privacy
+        </a>
+      </nav>
+    </footer>
+  </div>
 </Base>

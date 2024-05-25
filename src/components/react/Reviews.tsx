@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { type Database } from "../lib/database.types";
+import { type Database } from "../../lib/database.types";
 
 export type GuestbookEntry =
   Database["public"]["Tables"]["providers"]["Insert"];
 
 export const Reviews = ({ reviews }: { reviews: GuestbookEntry[] }) => {
   const [data, setData] = useState(reviews);
-  console.log("🚀 ~ Reviews ~ data:", data);
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 

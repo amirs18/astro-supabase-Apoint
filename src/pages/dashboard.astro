@@ -1,13 +1,11 @@
 ---
 import Base from "../layout/Base.astro";
 import { supabase } from "../lib/supabase";
-import { Reviews } from "../components/Reviews";
+import { Reviews } from "../components/react/Reviews";
 
 const { email } = Astro.locals;
 
-const { data } = await supabase
-  .from("providers")
-  .select("*");
+const { data } = await supabase.from("providers").select("*");
 ---
 
 <Base title="Dashboasrd">
