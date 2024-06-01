@@ -15,15 +15,15 @@ jobs:
 
       # Not using npm? Change `npm ci` to `yarn install` or `pnpm i`
       - name: Install dependencies
-        run: pnpm ci
+        run: npx pnpm i
 
       # Not using npm? Change `npm run build` to `yarn build` or `pnpm run build`
       - name: Build Astro
-        run: pnpm build
+        run: npx pnpm build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: my-deno-project # TODO: replace with Deno Deploy project name
+          project: amir-astro-supab-61
           entrypoint: server/entry.mjs
           root: dist
