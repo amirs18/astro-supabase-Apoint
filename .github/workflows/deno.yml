@@ -5,6 +5,10 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment: production
+    env:
+      SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+      SUPABASE_URL: ${{ vars.SUPABASE_URL }}
     permissions:
       id-token: write # Needed for auth with Deno Deploy
       contents: read # Needed to clone the repository
