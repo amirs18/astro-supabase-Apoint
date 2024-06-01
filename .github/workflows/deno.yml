@@ -16,6 +16,9 @@ jobs:
       # Not using npm? Change `npm ci` to `yarn install` or `pnpm i`
       - name: Install dependencies
         run: npx pnpm i
+      - name: echo test envs
+        run: echo $SUPABASE_ANON_KEY
+
 
       # Not using npm? Change `npm run build` to `yarn build` or `pnpm run build`
       - name: Build Astro
