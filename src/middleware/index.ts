@@ -8,18 +8,18 @@ const proptectedAPIRoutes = ["/api/guestbook(|/)"];
 
 export const onRequest = defineMiddleware(
   async ({ locals, url, cookies, redirect }, next) => {
-    if (micromatch.isMatch(url.pathname, protectedRoutes)) {
-      const accessToken = cookies.get("sb-access-token");
-      const refreshToken = cookies.get("sb-refresh-token");
+    const accessToken = cookies.get("sb-access-token");
+    const refreshToken = cookies.get("sb-refresh-token");
+    const { data, error } = await supabase.auth.setSession({
+      refresh_token: refreshToken?.value!,
+      access_token: accessToken?.value!,
+    });
+    locals.user = data?.user;
 
+    if (micromatch.isMatch(url.pathname, protectedRoutes)) {
       if (!accessToken || !refreshToken) {
         return redirect("/signin");
       }
-
-      const { data, error } = await supabase.auth.setSession({
-        refresh_token: refreshToken.value,
-        access_token: accessToken.value,
-      });
 
       if (error) {
         cookies.delete("sb-access-token", {
@@ -47,18 +47,12 @@ export const onRequest = defineMiddleware(
     }
 
     if (micromatch.isMatch(url.pathname, redirectRoutes)) {
-      const accessToken = cookies.get("sb-access-token");
-      const refreshToken = cookies.get("sb-refresh-token");
-
       if (accessToken && refreshToken) {
         return redirect("/dashboard");
       }
     }
 
     if (micromatch.isMatch(url.pathname, proptectedAPIRoutes)) {
-      const accessToken = cookies.get("sb-access-token");
-      const refreshToken = cookies.get("sb-refresh-token");
-
       // Check for tokens
       if (!accessToken || !refreshToken) {
         return new Response(
@@ -68,12 +62,7 @@ export const onRequest = defineMiddleware(
           { status: 401 },
         );
       }
-
       // Verify the tokens
-      const { error } = await supabase.auth.setSession({
-        access_token: accessToken.value,
-        refresh_token: refreshToken.value,
-      });
 
       if (error) {
         return new Response(
