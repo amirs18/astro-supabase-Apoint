@@ -1,0 +1,211 @@
+---
+import { supabase } from "../../lib/supabase";
+import Base from "../../layout/Base.astro";
+
+const { providerId } = Astro.params;
+
+const { data } = await supabase
+  .from("providers")
+  .select("*")
+  .limit(1)
+  .eq("id", Number(providerId))
+  .single();
+---
+
+<Base title="provider">
+  <!--
+// v0 by Vercel.
+// https://v0.dev/t/egI31zyVOoq
+-->
+
+  <!--
+// v0 by Vercel.
+// https://v0.dev/t/egI31zyVOoq
+-->
+
+  <main class="flex-1">
+    <section class="w-full pt-12 md:pt-24 lg:pt-32 border-y">
+      <div class="px-4 md:px-6 space-y-10 xl:space-y-16">
+        <div
+          class="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16"
+        >
+          <div>
+            <div class="flex items-center gap-4">
+              <img
+                src=`${import.meta.env.SUPABASE_URL}/storage/v1/object/public/providers_profile_photos/${data?.id}.png`
+                width="48"
+                height="48"
+                alt="Logo"
+                class="aspect-square overflow-hidden rounded-lg object-contain object-center"
+              />
+              <h1
+                class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]"
+              >
+                {data?.name}
+              </h1>
+            </div>
+            <p class="mt-4 text-gray-500 md:text-xl dark:text-gray-400">
+              Providing top-quality services to businesses and individuals since
+              2010.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="w-full py-12 md:py-24 lg:py-32">
+      <div class="container space-y-12 px-4 md:px-6">
+        <div>
+          <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">
+            Our Services
+          </h2>
+          <p
+            class="mt-4 max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+          >
+            We offer a wide range of services to meet your business needs.
+          </p>
+        </div>
+        <div
+          class="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3"
+        >
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">Web Design</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Crafting beautiful and responsive websites that engage your
+              audience.
+            </p>
+          </div>
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">Digital Marketing</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Developing and executing effective digital marketing strategies to
+              grow your business.
+            </p>
+          </div>
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">Branding</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Helping you build a strong and memorable brand identity.
+            </p>
+          </div>
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">IT Support</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Providing reliable and efficient IT support to keep your business
+              running smoothly.
+            </p>
+          </div>
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">Consulting</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Offering expert guidance and strategic advice to help you achieve
+              your business goals.
+            </p>
+          </div>
+          <div class="grid gap-1">
+            <h3 class="text-lg font-bold">Training</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Empowering your team with the skills and knowledge they need to
+              succeed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800"
+    >
+      <div class="container space-y-12 px-4 md:px-6">
+        <div>
+          <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl">
+            What Our Clients Say
+          </h2>
+          <p
+            class="mt-4 max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400"
+          >
+            Hear from our satisfied customers about their experience with our
+            services.
+          </p>
+        </div>
+        <div
+          class="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3"
+        >
+          <div
+            class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                src="/placeholder.svg"
+                width="48"
+                height="48"
+                alt="Client"
+                class="rounded-full"
+                style="aspect-ratio:48/48;object-fit:cover"
+              />
+              <div>
+                <h3 class="text-lg font-bold">Sarah Lee</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  CEO, Acme Corp
+                </p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              "The team at Acme Services has been instrumental in\n transforming
+              our online presence and driving growth for our\n business. Highly
+              recommended!"
+            </p>
+          </div>
+          <div
+            class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                src="/placeholder.svg"
+                width="48"
+                height="48"
+                alt="Client"
+                class="rounded-full"
+                style="aspect-ratio:48/48;object-fit:cover"
+              />
+              <div>
+                <h3 class="text-lg font-bold">David Kim</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Founder, Startup X
+                </p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              "Acme Services has been a true partner in our journey. Their\n
+              expertise and attention to detail have been invaluable in\n
+              helping us achieve our goals."
+            </p>
+          </div>
+          <div
+            class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
+          >
+            <div class="flex items-center gap-3">
+              <img
+                src="/placeholder.svg"
+                width="48"
+                height="48"
+                alt="Client"
+                class="rounded-full"
+                style="aspect-ratio:48/48;object-fit:cover"
+              />
+              <div>
+                <h3 class="text-lg font-bold">Emily Chen</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Marketing Manager, Acme Inc
+                </p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              "Acme Services has been a game-changer for our marketing\n
+              efforts. Their digital marketing strategies have helped us\n reach
+              new heights and connect with our target audience."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
