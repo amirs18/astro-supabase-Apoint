@@ -159,59 +159,37 @@ export type Database = {
           },
         ]
       }
-      providers_services: {
-        Row: {
-          id: number
-          provider_id: number
-          service_id: number
-        }
-        Insert: {
-          id?: number
-          provider_id: number
-          service_id: number
-        }
-        Update: {
-          id?: number
-          provider_id?: number
-          service_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "providers_services_provider_id_fkey"
-            columns: ["provider_id"]
-            isOneToOne: false
-            referencedRelation: "providers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "providers_services_service_id_fkey"
-            columns: ["service_id"]
-            isOneToOne: false
-            referencedRelation: "services"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       services: {
         Row: {
           description: string | null
           id: number
           price: number
+          provider_id: number | null
           service_name: string
         }
         Insert: {
           description?: string | null
           id?: number
           price: number
+          provider_id?: number | null
           service_name: string
         }
         Update: {
           description?: string | null
           id?: number
           price?: number
+          provider_id?: number | null
           service_name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_services_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
