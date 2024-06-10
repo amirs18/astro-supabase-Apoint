@@ -7,11 +7,17 @@ const description = "Astro and Supabase demo app";
 const { title } = Astro.props;
 const ogImageURL = new URL("hero.png", Astro.site).href;
 const canonicalURL = new URL(Astro.url).href;
-
+const theme = Astro.cookies.get("theme");
 const { user } = Astro.locals;
 ---
 
-<html lang="en" class="h-full w-full">
+<html
+  data-theme={theme?.value}
+  id="html-tag"
+  'lang="en"
+  '
+  class="h-full w-full"
+>
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -28,42 +34,38 @@ const { user } = Astro.locals;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
   </head>
-  <body
-    class="flex flex-col h-full w-full dark:bg-zinc-900 bg-zinc-50 dark:text-zinc-100"
-  >
-    <nav class="border-b bg-white dark:bg-zinc-800 dark:border-zinc-700">
+  <body class="flex flex-col h-full w-full">
+    <nav class="border-b bg-zinc-800">
       <div
         class="flex items-baseline justify-end sm:justify-between p-4 max-w-screen-xl mx-auto"
       >
-        <a href="/" class="hidden sm:block font-semibold dark:text-white"
-          >APoint</a
-        >
+        <div class="form-control w-52">
+          <label class="cursor-pointer label">
+            <span class="label-text"></span>
+            <input
+              id="theme"
+              type="checkbox"
+              class="toggle toggle-primary"
+              checked
+            />
+          </label>
+        </div>
+        <a href="/" class="hidden sm:block font-semibold">APoint</a>
         <div>
           <ul class="font-medium flex items-baseline gap-8">
             <li>
-              <a
-                href="/dashboard"
-                class="block text-zinc-900 dark:text-gray-200"
-              >
-                Dashboard
-              </a>
+              <a href="/dashboard" class="block"> Dashboard</a>
             </li>
             {
               user?.email ?? (
                 <>
                   <li>
-                    <a
-                      href="/register"
-                      class="block text-zinc-900 dark:text-gray-200"
-                    >
+                    <a href="/register" class="block ">
                       Register
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="/signin"
-                      class="block text-zinc-900 dark:text-gray-200"
-                    >
+                    <a href="/signin" class="block ">
                       Sign in
                     </a>
                   </li>
@@ -71,12 +73,7 @@ const { user } = Astro.locals;
               )
             }
             <li>
-              <a
-                href="/provider"
-                class="block text-zinc-900 dark:text-gray-200"
-              >
-                Provider
-              </a>
+              <a href="/provider" class="block"> Provider</a>
             </li>
           </ul>
         </div>
@@ -85,3 +82,15 @@ const { user } = Astro.locals;
     <slot />
   </body>
 </html>
+
+<script>
+  document.getElementById("theme")?.addEventListener("change", () => {
+    const theme = document
+      .getElementById("html-tag")
+      ?.getAttribute("data-theme");
+    document.cookie = `theme=${theme === "dark" ? "light" : "dark"};`;
+    document
+      .getElementById("html-tag")
+      ?.setAttribute("data-theme", theme === "dark" ? "light" : "dark");
+  });
+</script>

@@ -5,7 +5,10 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-supabase-auth.vercel.app",
+  site:
+    import.meta.env.MODE === "production"
+      ? "https://astro-supabase-apoint.vercel.app"
+      : "http://localhost:4321",
   output: "server",
   adapter: vercel(),
   integrations: [tailwind(), react()],

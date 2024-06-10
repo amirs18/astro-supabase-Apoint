@@ -3,7 +3,7 @@ import Base from "../layout/Base.astro";
 import { supabase } from "../lib/supabase";
 import { Reviews } from "../components/react/Reviews";
 
-const { email } = Astro.locals;
+const { user } = Astro.locals;
 
 const { data } = await supabase.from("providers").select("*");
 ---
@@ -13,7 +13,7 @@ const { data } = await supabase.from("providers").select("*");
     <p
       class="max-w-prose text-xl text-indigo-600 dark:text-indigo-400 font-semibold"
     >
-      {email}
+      {user?.email}
     </p>
     <p class="max-w-prose text-lg mb-2 dark:text-zinc-100">
       This is a protected page. You can only see this if you are logged in.
