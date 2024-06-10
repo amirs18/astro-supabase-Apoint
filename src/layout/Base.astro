@@ -34,51 +34,92 @@ const { user } = Astro.locals;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
   </head>
+
   <body class="flex flex-col h-full w-full">
-    <nav class="border-b bg-zinc-800">
-      <div
-        class="flex items-baseline justify-end sm:justify-between p-4 max-w-screen-xl mx-auto"
-      >
-        <div class="form-control w-52">
-          <label class="cursor-pointer label">
-            <span class="label-text"></span>
-            <input
-              id="theme"
-              type="checkbox"
-              class="toggle toggle-primary"
-              checked
-            />
-          </label>
-        </div>
-        <a href="/" class="hidden sm:block font-semibold">APoint</a>
-        <div>
-          <ul class="font-medium flex items-baseline gap-8">
-            <li>
-              <a href="/dashboard" class="block"> Dashboard</a>
-            </li>
-            {
-              user?.email ?? (
-                <>
-                  <li>
-                    <a href="/register" class="block ">
-                      Register
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/signin" class="block ">
-                      Sign in
-                    </a>
-                  </li>
-                </>
-              )
-            }
-            <li>
-              <a href="/provider" class="block"> Provider</a>
-            </li>
-          </ul>
-        </div>
+    <div class="drawer drawer-end">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <nav class="border-b bg-zinc-800">
+          <div
+            class="flex items-center justify-end sm:justify-between p-2 max-w-screen-xl mx-auto"
+          >
+            <div class="form-control w-52">
+              <label class="cursor-pointer label">
+                <span class="label-text"></span>
+                <input
+                  id="theme"
+                  type="checkbox"
+                  class="toggle toggle-primary toggle-md"
+                  checked={theme?.value === "light" ? false : true}
+                />
+              </label>
+            </div>
+            <a href="/" class="hidden sm:block font-semibold">APoint</a>
+            <div>
+              <ul class="font-medium flex items-baseline gap-8">
+                <li>
+                  <label for="my-drawer-4" class="drawer-button cursor-pointer">
+                    <svg
+                      class=""
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30px"
+                      height="30px"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></g>
+
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          fill="oklch(0.746477 0.0216 264.436)"
+                          fill-rule="evenodd"
+                          d="M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"
+                        ></path>
+                      </g>
+                    </svg>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
+      <div class="drawer-side">
+        <label
+          for="my-drawer-4"
+          aria-label="close sidebar"
+          class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          <li>
+            <a href="/dashboard" class="block"> Dashboard</a>
+          </li>
+          {
+            user?.email ?? (
+              <>
+                <li>
+                  <a href="/register" class="block ">
+                    Register
+                  </a>
+                </li>
+                <li>
+                  <a href="/signin" class="block ">
+                    Sign in
+                  </a>
+                </li>
+              </>
+            )
+          }
+          <li>
+            <a href="/provider" class="block"> Provider</a>
+          </li>
+        </ul>
+      </div>
+    </div>
     <slot />
   </body>
 </html>
