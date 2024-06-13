@@ -11,7 +11,10 @@ const [provider, services] = await Promise.all([
 
   supabase.from("services").select("*").eq("provider_id", providerID),
 ]);
-
+if (provider.error) {
+  console.log("err");
+  return Astro.redirect(`/${providerID}}/error`);
+}
 const providerData = provider.data;
 const servicesData = services.data;
 ---

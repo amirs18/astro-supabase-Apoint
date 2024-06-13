@@ -43,17 +43,6 @@ const { user } = Astro.locals;
           <div
             class="flex items-center justify-end sm:justify-between p-2 max-w-screen-xl mx-auto"
           >
-            <div class="form-control w-52">
-              <label class="cursor-pointer label">
-                <span class="label-text"></span>
-                <input
-                  id="theme"
-                  type="checkbox"
-                  class="toggle toggle-primary toggle-md"
-                  checked={theme?.value === "light" ? false : true}
-                />
-              </label>
-            </div>
             <a href="/" class="hidden sm:block font-semibold">APoint</a>
             <div>
               <ul class="font-medium flex items-baseline gap-8">
@@ -95,11 +84,12 @@ const { user } = Astro.locals;
           aria-label="close sidebar"
           class="drawer-overlay"></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          <li>
-            <a href="/dashboard" class="block"> Dashboard</a>
-          </li>
           {
-            user?.email ?? (
+            user?.email ? (
+              <li>
+                <a class="pointer-events-none">{user.email}</a>
+              </li>
+            ) : (
               <>
                 <li>
                   <a href="/register" class="block ">
@@ -115,12 +105,28 @@ const { user } = Astro.locals;
             )
           }
           <li>
+            <a href="/dashboard" class="block"> Dashboard</a>
+          </li>
+          <li>
             <a href="/provider" class="block"> Provider</a>
           </li>
+          <div class="w-52">
+            <label class="cursor-pointer label">
+              <span class="label-text"></span>
+              <input
+                id="theme"
+                type="checkbox"
+                class="toggle toggle-primary toggle-md"
+                checked={theme?.value === "light" ? false : true}
+              />
+            </label>
+          </div>
         </ul>
       </div>
     </div>
-    <slot />
+    <div class="flex flex-col justify-center items-center h-screen">
+      <slot />
+    </div>
   </body>
 </html>
 
