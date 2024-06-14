@@ -35,6 +35,9 @@ importers:
       axios:
         specifier: ^1.7.2
         version: 1.7.2
+      cookie:
+        specifier: ^0.6.0
+        version: 0.6.0
       micromatch:
         specifier: ^4.0.5
         version: 4.0.5
@@ -57,6 +60,9 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
     devDependencies:
+      '@types/cookie':
+        specifier: ^0.6.0
+        version: 0.6.0
       '@types/micromatch':
         specifier: ^4.0.6
         version: 4.0.6
@@ -930,6 +936,9 @@ packages:
 
   '@types/braces@3.0.4':
     resolution: {integrity: sha512-0WR3b8eaISjEW7RpZnclONaLFDf7buaowRHdqLp4vLj54AsSAYWfh3DRbfiYJY9XDxMgx1B4sE1Afw2PGpuHOA==}
+
+  '@types/cookie@0.6.0':
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
@@ -3847,6 +3856,8 @@ snapshots:
       '@babel/types': 7.23.6
 
   '@types/braces@3.0.4': {}
+
+  '@types/cookie@0.6.0': {}
 
   '@types/debug@4.1.12':
     dependencies:
