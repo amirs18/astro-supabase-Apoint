@@ -39,7 +39,7 @@ const { user } = Astro.locals;
     <div class="drawer drawer-end">
       <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
-        <nav class="border-b bg-zinc-800">
+        <nav class="border-b bg-zinc-800 mb-4">
           <div
             class="flex items-center justify-end sm:justify-between p-2 max-w-screen-xl mx-auto"
           >
@@ -124,20 +124,20 @@ const { user } = Astro.locals;
         </ul>
       </div>
     </div>
-    <div class="flex flex-col justify-center items-center h-screen">
+    <div class="flex flex-col justify-center items-center">
       <slot />
     </div>
   </body>
-</html>
 
-<script>
-  document.getElementById("theme")?.addEventListener("change", () => {
-    const theme = document
-      .getElementById("html-tag")
-      ?.getAttribute("data-theme");
-    document.cookie = `theme=${theme === "dark" ? "light" : "dark"};`;
-    document
-      .getElementById("html-tag")
-      ?.setAttribute("data-theme", theme === "dark" ? "light" : "dark");
-  });
-</script>
+  <script>
+    document.getElementById("theme")?.addEventListener("change", () => {
+      const theme = document
+        .getElementById("html-tag")
+        ?.getAttribute("data-theme");
+      document.cookie = `theme=${theme === "dark" ? "light" : "dark"};`;
+      document
+        .getElementById("html-tag")
+        ?.setAttribute("data-theme", theme === "dark" ? "light" : "dark");
+    });
+  </script>
+</html>

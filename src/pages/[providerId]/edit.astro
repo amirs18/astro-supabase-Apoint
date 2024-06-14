@@ -1,7 +1,7 @@
 ---
 import Base from "../../layout/Base.astro";
 import { supabase } from "../../lib/supabase";
-import { ServicesEdit } from "../../components/react/ServicesEdit";
+import { ServicesCards } from "../../components/react/ServicesCards";
 
 const { providerId } = Astro.params;
 const providerID = Number(providerId);
@@ -17,67 +17,73 @@ if (provider.error) {
 ---
 
 <Base title={`Edit ${provider.data?.name}`}>
-  <form method="POST" action="/api/providers/update">
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="hidden"
-      name="id"
-      value={provider.data.id}
-    />
-    <label for="name">Name:</label>
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="text"
-      id="name"
-      name="name"
-      value={provider.data.name}
-      required
-    />
+  <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8">
+    <form method="POST" action="/api/providers/update">
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="hidden"
+        name="id"
+        value={provider.data.id}
+      />
+      <label for="name">Name:</label>
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="text"
+        id="name"
+        name="name"
+        value={provider.data.name}
+        required
+      />
 
-    <label for="email">Email:</label>
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="email"
-      id="email"
-      name="email"
-      value={provider.data.email}
-      required
-    />
+      <label for="email">Email:</label>
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="email"
+        id="email"
+        name="email"
+        value={provider.data.email}
+        required
+      />
 
-    <label for="phone_number">Phone Number:</label>
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="tel"
-      id="phone_number"
-      name="phone_number"
-      value={provider.data.phone_number}
-    />
+      <label for="phone_number">Phone Number:</label>
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="tel"
+        id="phone_number"
+        name="phone_number"
+        value={provider.data.phone_number}
+      />
 
-    <label for="bio">Bio:</label>
-    <textarea
-      class="textarea textarea-bordered flex items-center gap-2"
-      id="bio"
-      name="bio">{provider.data.bio}</textarea
-    >
-    <label for="location_name">Location Name:</label>
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="text"
-      id="location_name"
-      name="location_name"
-      value={provider.data.location_name}
-    />
+      <label for="bio">Bio:</label>
+      <textarea
+        class="textarea textarea-bordered flex items-center gap-2"
+        id="bio"
+        name="bio">{provider.data.bio}</textarea
+      >
+      <label for="location_name">Location Name:</label>
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="text"
+        id="location_name"
+        name="location_name"
+        value={provider.data.location_name}
+      />
 
-    <label for="photo_link">Photo Link:</label>
-    <input
-      class="input input-bordered flex items-center gap-2"
-      type="url"
-      id="photo_link"
-      name="photo_link"
-      value={provider.data.photo_link}
-    />
+      <label for="photo_link">Photo Link:</label>
+      <input
+        class="input input-bordered flex items-center gap-2"
+        type="url"
+        id="photo_link"
+        name="photo_link"
+        value={provider.data.photo_link}
+      />
 
-    <button type="submit">Update Provider</button>
-  </form>
-  <ServicesEdit services={services.data} providerId={providerID} />
+      <button type="submit">Update Provider</button>
+    </form>
+    <ServicesCards
+      services={services.data}
+      providerId={providerID}
+      client:idle
+    />
+  </div>
 </Base>
