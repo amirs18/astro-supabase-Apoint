@@ -24,7 +24,6 @@ export const POST: APIRoute = async ({ request }) => {
     .insert({
       email,
       name,
-      owner_user_id,
     })
     .select();
 
