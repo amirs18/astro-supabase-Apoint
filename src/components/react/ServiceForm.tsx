@@ -42,11 +42,7 @@ export function ServiceForm({
         .single();
       if (deletedService.data !== null) {
         setServices((prev) => {
-          console.time();
-          const s = new Set(prev);
-          s.delete(service);
-          const arr = Array.from(s);
-          console.timeEnd();
+          const arr = prev!.filter((item) => item.id !== service.id);
           return arr;
         });
       }
