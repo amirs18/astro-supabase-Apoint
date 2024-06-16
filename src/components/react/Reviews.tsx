@@ -23,7 +23,9 @@ export const Reviews = ({ reviews }: { reviews: GuestbookEntry[] }) => {
         throw new Error("No data received");
       }
 
-      setData((prev) => (newData ? [...res.data, ...prev] : res.data));
+      setData((prev) => (newData ? [res.data, ...prev] : res.data));
+
+      console.log("🚀 ~ Reviews ~ data:", data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

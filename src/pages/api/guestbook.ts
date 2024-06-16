@@ -27,8 +27,6 @@ export const POST: APIRoute = async ({ request }) => {
     })
     .select()
     .single();
-  if (data)
-    await supabase.from("users_provider").insert({ provider_id: data.id });
 
   if (error) {
     return new Response(
