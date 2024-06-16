@@ -1,7 +1,7 @@
 ---
 import Base from "../../layout/Base.astro";
 import { supabase } from "../../lib/supabase";
-import { ServicesCards } from "../../components/react/ServicesCards";
+import { ServiceEdit } from "../../components/react/ServicesEdit";
 
 const { providerId } = Astro.params;
 const providerID = Number(providerId);
@@ -17,7 +17,7 @@ if (provider.error) {
 ---
 
 <Base title={`Edit ${provider.data?.name}`}>
-  <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8">
+  <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8 w-3/4">
     <form method="POST" action="/api/providers/update">
       <input
         class="input input-bordered flex items-center gap-2"
@@ -80,10 +80,6 @@ if (provider.error) {
 
       <button type="submit">Update Provider</button>
     </form>
-    <ServicesCards
-      services={services.data}
-      providerId={providerID}
-      client:idle
-    />
+    <ServiceEdit services={services.data} providerId={providerID} client:idle />
   </div>
 </Base>
