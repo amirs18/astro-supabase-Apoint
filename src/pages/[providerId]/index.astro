@@ -12,7 +12,7 @@ const [provider, services] = await Promise.all([
   supabase.from("services").select("*").eq("provider_id", providerID),
 ]);
 if (provider.error) {
-  console.log("err");
+  console.error(provider.error);
   return Astro.redirect(`/${providerID}}/error`);
 }
 const providerData = provider.data;
@@ -20,6 +20,7 @@ const servicesData = services.data;
 ---
 
 <Base title="provider">
+
   <!--
 // v0 by Vercel.
 // https://v0.dev/t/egI31zyVOoq
@@ -33,13 +34,14 @@ const servicesData = services.data;
         >
           <div>
             <div class="flex items-center gap-4">
-              <img
-                src=`${import.meta.env.SUPABASE_URL}/storage/v1/object/public/providers_profile_photos/${providerData?.id}.png`
+              {providerData.photo_link &&
+               <img
+                src={providerData.photo_link}
                 width="48"
                 height="48"
                 alt="Logo"
                 class="aspect-square overflow-hidden rounded-lg object-contain object-center"
-              />
+              />}
               <h1
                 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]"
               >
@@ -103,14 +105,14 @@ const servicesData = services.data;
             class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
           >
             <div class="flex items-center gap-3">
-              <img
+              <!-- <img
                 src="/placeholder.svg"
                 width="48"
                 height="48"
                 alt="Client"
                 class="rounded-full"
                 style="aspect-ratio:48/48;object-fit:cover"
-              />
+              /> -->
               <div>
                 <h3 class="text-lg font-bold">Sarah Lee</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -128,14 +130,14 @@ const servicesData = services.data;
             class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
           >
             <div class="flex items-center gap-3">
-              <img
+              <!-- <img
                 src="/placeholder.svg"
                 width="48"
                 height="48"
                 alt="Client"
                 class="rounded-full"
                 style="aspect-ratio:48/48;object-fit:cover"
-              />
+              /> -->
               <div>
                 <h3 class="text-lg font-bold">David Kim</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -153,14 +155,14 @@ const servicesData = services.data;
             class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
           >
             <div class="flex items-center gap-3">
-              <img
+              <!-- <img
                 src="/placeholder.svg"
                 width="48"
                 height="48"
                 alt="Client"
                 class="rounded-full"
                 style="aspect-ratio:48/48;object-fit:cover"
-              />
+              /> -->
               <div>
                 <h3 class="text-lg font-bold">Emily Chen</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -178,4 +180,5 @@ const servicesData = services.data;
       </div>
     </section>
   </main>
+  
 </Base>
