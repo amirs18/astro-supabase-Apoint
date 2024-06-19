@@ -1,7 +1,6 @@
 import React, { useEffect, type ReactNode } from "react";
 import { supabase } from "../../lib/supabase";
 import cookie from "cookie";
-import { get } from "react-hook-form";
 
 export function AuthHelper({ children }: { children: ReactNode }) {
   useEffect(() => {
