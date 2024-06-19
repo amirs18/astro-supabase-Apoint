@@ -5,22 +5,25 @@ import Base from "../../layout/Base.astro";
 const { providerId } = Astro.params;
 
 const providerID = Number(providerId);
+console.time();
 
-const [provider, services] = await Promise.all([
+const [provider, services, isAdmin] = await Promise.all([
   supabase.from("providers").select("*").limit(1).eq("id", providerID).single(),
 
   supabase.from("services").select("*").eq("provider_id", providerID),
+  supabase.rpc("is_admin", { p_id: providerID }),
 ]);
+console.timeEnd();
+
 if (provider.error) {
   console.error(provider.error);
-  return Astro.redirect(`/${providerID}}/error`);
+  return Astro.redirect(`/provider-error`);
 }
 const providerData = provider.data;
 const servicesData = services.data;
 ---
 
 <Base title="provider">
-
   <!--
 // v0 by Vercel.
 // https://v0.dev/t/egI31zyVOoq
@@ -34,19 +37,23 @@ const servicesData = services.data;
         >
           <div>
             <div class="flex items-center gap-4">
-              {providerData.photo_link &&
-               <img
-                src={providerData.photo_link}
-                width="48"
-                height="48"
-                alt="Logo"
-                class="aspect-square overflow-hidden rounded-lg object-contain object-center"
-              />}
+              {
+                providerData.photo_link && (
+                  <img
+                    src={providerData.photo_link}
+                    width="48"
+                    height="48"
+                    alt="Logo"
+                    class="aspect-square overflow-hidden rounded-lg object-contain object-center"
+                  />
+                )
+              }
               <h1
                 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]"
               >
                 {providerData?.name}
               </h1>
+              {isAdmin.data && <a href={"/" + providerID + "/edit"}>Edit</a>}
             </div>
             <p class="mt-4 text-gray-500 md:text-xl dark:text-gray-400">
               {providerData?.bio}
@@ -67,16 +74,26 @@ const servicesData = services.data;
         >
           {
             servicesData?.map((service) => (
-              <div class="grid gap-1">
-                <div class="grid items-start">
-                  <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold">{service.service_name}</h3>
-                    <span class="text-lg font-bold pr-2">{service.price}</span>
+              <div class="card bg-base-100 shadow-xl ">
+                <div class="card-body ">
+                  <div class="grid gap-6">
+                    <div class="grid grid-cols-3 gap-8">
+                      <h3 class="card-title col-span-2">
+                        {service.service_name}
+                      </h3>
+                      <span class="text-lg font-bold  col-span-1 text-center ">
+                        {service.price}
+                      </span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-8">
+                      <p class="text-sm text-gray-500 dark:text-gray-400 col-span-2">
+                        {service.description}
+                      </p>
+                      {/* TODO make this actually book an apointment */}
+                      <button class=" btn col-span-1">Book Now</button>
+                    </div>
                   </div>
                 </div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  {service.description}
-                </p>
               </div>
             ))
           }
@@ -105,6 +122,7 @@ const servicesData = services.data;
             class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
           >
             <div class="flex items-center gap-3">
+              <!-- TODO fix this shit -->
               <!-- <img
                 src="/placeholder.svg"
                 width="48"
@@ -130,6 +148,7 @@ const servicesData = services.data;
             class="flex flex-col items-start space-y-4 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
           >
             <div class="flex items-center gap-3">
+              <!-- TODO fix this shit -->
               <!-- <img
                 src="/placeholder.svg"
                 width="48"
@@ -180,5 +199,4 @@ const servicesData = services.data;
       </div>
     </section>
   </main>
-  
 </Base>

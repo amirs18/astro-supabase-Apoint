@@ -10,7 +10,7 @@ export function ServiceCard({
 }) {
   const setEditing = useCallback(() => setEditingID(service.id), []);
   return (
-    <div className="card  bg-base-100 shadow-xl z-10">
+    <div className="card bg-base-100 shadow-xl z-10">
       <div className="card-body z-10">
         <h2 className="card-title">{service.service_name}</h2>
         <p>{service.description}</p>
