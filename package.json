@@ -22,6 +22,7 @@
     "astro": "^4.0.7",
     "axios": "^1.7.2",
     "cookie": "^0.6.0",
+    "eslint-plugin-astro": "^1.2.2",
     "lodash": "^4.17.21",
     "micromatch": "^4.0.5",
     "react": "^18.3.1",
