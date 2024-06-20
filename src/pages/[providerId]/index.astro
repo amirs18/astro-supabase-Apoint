@@ -5,7 +5,6 @@ import Base from "../../layout/Base.astro";
 const { providerId } = Astro.params;
 
 const providerID = Number(providerId);
-console.time();
 
 const [provider, services, isAdmin] = await Promise.all([
   supabase.from("providers").select("*").limit(1).eq("id", providerID).single(),
@@ -13,7 +12,6 @@ const [provider, services, isAdmin] = await Promise.all([
   supabase.from("services").select("*").eq("provider_id", providerID),
   supabase.rpc("is_admin", { p_id: providerID }),
 ]);
-console.timeEnd();
 
 if (provider.error) {
   console.error(provider.error);
