@@ -16,7 +16,7 @@ const { user } = Astro.locals;
   id="html-tag"
   'lang="en"
   '
-  class="h-full w-full"
+  
 >
   <head>
     <title>{title}</title>
@@ -38,12 +38,12 @@ const { user } = Astro.locals;
   <body class="flex flex-col h-full w-full">
     <div class="drawer drawer-end">
       <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <nav class=" bg-zinc-800 ">
       <div class="drawer-content">
-        <nav class="border-b bg-zinc-800 mb-4">
           <div
-            class="flex items-center justify-end sm:justify-between p-2 max-w-screen-xl mx-auto"
+            class="flex items-center justify-between p-2  mx-auto"
           >
-            <a href="/" class="hidden sm:block font-semibold">APoint</a>
+            <a href="/" >APoint</a>
             <div>
               <ul class="font-medium flex items-baseline gap-8">
                 <li>
@@ -76,8 +76,8 @@ const { user } = Astro.locals;
               </ul>
             </div>
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>  
       <div class="drawer-side z-50">
         <label
           for="my-drawer-4"
