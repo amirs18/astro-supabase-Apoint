@@ -7,6 +7,7 @@ type FormInput = {
   service_name: string;
   description: string;
   price: number;
+  duration: number;
 };
 type PropTypes =
   | {
@@ -112,6 +113,15 @@ export function ServiceForm({
             placeholder={edit ? service.description! : "description"}
           />
           <div className="card-actions justify-between">
+            <input
+              {...register("duration")}
+              className="input input-bordered w-28 flex items-center gap-2"
+              type="number"
+              id="duration"
+              name="duration"
+              defaultValue={service?.duration}
+              placeholder={edit ? service.duration.toString() : "duration"}
+            />
             <input
               {...register("price")}
               className="input input-bordered w-28 flex items-center gap-2"
