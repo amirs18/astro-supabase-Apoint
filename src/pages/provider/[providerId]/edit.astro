@@ -1,0 +1,26 @@
+---
+import Base from "../../../layout/Base.astro";
+import { supabase } from "../../../lib/supabase";
+import { ServiceEdit } from "../../../components/react/ServicesEdit";
+
+const { providerId } = Astro.params;
+const providerID = Number(providerId);
+
+const [provider, services] = await Promise.all([
+  supabase.from("providers").select("*").limit(1).eq("id", providerID).single(),
+
+  supabase.from("services").select("*").eq("provider_id", providerID),
+]);
+
+if (provider.error) {
+  console.log("🚀 ~ provider.error:", provider.error);
+  /* eslint-disable-next-line */
+  return Astro.redirect(`/provider/provider-error`);
+}
+---
+
+<Base title={`Edit ${provider.data?.name}`}>
+  <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8 w-3/4">
+    <ServiceEdit services={services.data} providerId={providerID} client:idle />
+  </div>
+</Base>

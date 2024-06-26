@@ -1,6 +1,6 @@
 ---
-import { supabase } from "../../lib/supabase";
-import Base from "../../layout/Base.astro";
+import { supabase } from "../../../lib/supabase";
+import Base from "../../../layout/Base.astro";
 
 const { providerId } = Astro.params;
 
@@ -15,7 +15,7 @@ const [provider, services, isAdmin] = await Promise.all([
 
 if (provider.error) {
   console.error(provider.error);
-  return Astro.redirect(`/provider-error`);
+  return Astro.redirect(`/provider/provider-error`);
 }
 const providerData = provider.data;
 const servicesData = services.data;
