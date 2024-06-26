@@ -15,7 +15,7 @@ export const Reviews = ({ reviews }: { reviews: GuestbookEntry[] }) => {
     try {
       const res = await axios({
         method: newData ? "POST" : "GET",
-        url: "/api/guestbook",
+        url: "/api/provider",
         data: newData,
       });
 
@@ -24,7 +24,6 @@ export const Reviews = ({ reviews }: { reviews: GuestbookEntry[] }) => {
       }
 
       setData((prev) => (newData ? [res.data, ...prev] : res.data));
-
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
