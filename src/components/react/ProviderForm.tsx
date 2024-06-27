@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Json } from "../../lib/database.types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { supabase } from "../../lib/supabase";
@@ -15,7 +15,7 @@ type FormInput = {
   photo_link: string;
 };
 type PropTypes = {
-  providerData?: FormInput | undefined;
+  providerData?: FormInput ;
 };
 
 const geometrySchema = z
@@ -48,19 +48,14 @@ const providerSchema = z.object({
 
 export function ProviderForm({ providerData }: PropTypes) {
   const { register, handleSubmit, reset, setError } = useForm<FormInput>();
+  const [errors,setErrors] = useState<string[]>([])
 
-  const onSubmit: SubmitHandler<FormInput> = async (formData) => {
+  const onSubmit: SubmitHandler<FormInput> = async (formData:FormInput) => {
     const sParse = providerSchema.safeParse(formData);
     if (sParse.error) {
       const err = sParse.error;
-      err.errors.forEach((e) => {
-        setError(e.path[0] as keyof FormInput, { message: e.message });
-      });
+      setErrors(err.errors.map((e) => e.path[0]+': '+e.message));
     } else {
-      console.log(
-        "🚀 ~ constonSubmit:SubmitHandler<FormInput>= ~ sParse.data:",
-        sParse.data,
-      );
       const { data, error } = await supabase
         .from("providers")
         .insert(sParse.data)
@@ -113,7 +108,7 @@ export function ProviderForm({ providerData }: PropTypes) {
 
       <label>Phone Number:</label>
       <input
-        {...register("phone_number",{pattern:})}
+        {...register("phone_number")}
         className="input input-bordered flex items-center gap-2"
         type="tel"
         id="phone_number"
@@ -159,6 +154,12 @@ export function ProviderForm({ providerData }: PropTypes) {
       <button className="btn" type="submit">
         Update Provider
       </button>
+      <ul>
+
+      {errors && errors.map((e)=><li>
+        {e}
+      </li>)}
+      </ul>
     </form>
   );
 }
