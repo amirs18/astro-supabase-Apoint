@@ -51,7 +51,11 @@ const servicesData = services.data;
               >
                 {providerData?.name}
               </h1>
-              {isAdmin.data && <a href={"/" + providerID + "/edit"}>Edit</a>}
+              {
+                isAdmin.data && (
+                  <a href={"/provider/" + providerID + "/edit"}>Edit</a>
+                )
+              }
             </div>
             <p class="mt-4 text-gray-500 md:text-xl dark:text-gray-400">
               {providerData?.bio}

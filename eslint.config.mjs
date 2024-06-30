@@ -5,10 +5,7 @@ export default [
   ...eslintPluginAstro.configs.recommended,
 
   {
-    parserOptions: {
-      sourceType: "module",
-      globalReturn: true,
-    },
+    
     rules: {
       // override/add rules settings here, such as:
       // "astro/no-set-html-directive": "error"

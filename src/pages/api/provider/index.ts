@@ -35,7 +35,7 @@ const bodySchema = z.object({
   email: z.string().email(),
   name: z.string(),
   bio: z.string().nullable().default(null),
-  location_geoJSON: geometrySchema,
+  // location_geoJSON: geometrySchema,
   location_name: z.string().nullable().default(null),
   phone_number: z
     .string()
@@ -46,10 +46,7 @@ const bodySchema = z.object({
 });
 // creates a new provider
 export const POST: APIRoute = async ({ request }) => {
-  const formData = await request.formData();
-  const parsedBody = bodySchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  );
+  const parsedBody = bodySchema.safeParse(await request.json());
   if (parsedBody.error) {
     return new Response(
       JSON.stringify({
@@ -70,6 +67,46 @@ export const POST: APIRoute = async ({ request }) => {
         phone_number,
         photo_link,
       })
+      .select()
+      .single();
+
+    if (error) {
+      return new Response(
+        JSON.stringify({
+          error: error.message,
+        }),
+        { status: 500 },
+      );
+    }
+    return new Response(JSON.stringify(data), { status: 200 });
+  }
+};
+
+export const PATCH: APIRoute = async ({ request }) => {
+  const parsedBody = bodySchema
+    .extend({ id: z.number() })
+    .safeParse(await request.json());
+  if (parsedBody.error) {
+    return new Response(
+      JSON.stringify({
+        error: parsedBody.error.message,
+      }),
+      { status: 403 },
+    );
+  } else {
+    const { id, email, name, phone_number, bio, location_name, photo_link } =
+      parsedBody.data;
+    const { data, error } = await supabase
+      .from("providers")
+      .update({
+        email,
+        name,
+        bio,
+        location_name,
+        phone_number,
+        photo_link,
+      })
+      .eq("id", id)
       .select()
       .single();
 
