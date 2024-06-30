@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import type { Json } from "../../lib/database.types";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { supabase } from "../../lib/supabase";
+import { type Database } from "../../lib/database.types";
 import { z } from "zod";
 import { AuthHelper } from "./AuthHelper";
+import axios from "axios";
+
+type providerResponse = Database["public"]["Tables"]["providers"]["Row"];
 
 type FormInput = {
   bio: string | null;
@@ -57,23 +60,21 @@ export function ProviderForm({ providerData }: PropTypes) {
       const err = sParse.error;
       setErrors(err.errors.map((e) => e.path[0] + ": " + e.message));
     } else {
-      const { data, error } = await supabase
-        .from("providers")
-        .upsert(
-          providerData ? { ...sParse.data, id: providerData.id } : sParse.data,
-          { onConflict: "id" },
-        )
-        .select()
-        .single();
+      const { data, status } = providerData?.id
+        ? await axios.patch("/api/provider", {
+            ...sParse.data,
+            id: providerData.id,
+          })
+        : await axios.post<providerResponse>(`/api/provider`, sParse.data);
 
-      if (error) {
+      if (status !== 200) {
         console.log(
           "🚀 ~ constonSubmit:SubmitHandler<FormInput>= ~ error:",
-          error,
+          data,
         );
         //TODO: handle error
       } else {
-        window.location.replace(`/provider/${data.id}`);
+        window.location.href = `/provider/${data.id}`;
       }
     }
   };
