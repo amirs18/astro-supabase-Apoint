@@ -3,19 +3,20 @@ import type { Json } from "../../lib/database.types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { supabase } from "../../lib/supabase";
 import { z } from "zod";
+import { AuthHelper } from "./AuthHelper";
 
 type FormInput = {
-  bio: string;
+  bio: string | null;
   email: string;
   id: number;
-  // location_geoJSON: Json;
-  location_name: string;
+  location_geoJSON: Json;
+  location_name: string | null;
   name: string;
-  phone_number: string;
-  photo_link: string;
+  phone_number: string | null;
+  photo_link: string | null;
 };
 type PropTypes = {
-  providerData?: FormInput ;
+  providerData?: FormInput;
 };
 
 const geometrySchema = z
@@ -47,18 +48,21 @@ const providerSchema = z.object({
 });
 
 export function ProviderForm({ providerData }: PropTypes) {
-  const { register, handleSubmit, reset, setError } = useForm<FormInput>();
-  const [errors,setErrors] = useState<string[]>([])
+  const { register, handleSubmit } = useForm<FormInput>();
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const onSubmit: SubmitHandler<FormInput> = async (formData:FormInput) => {
+  const onSubmit: SubmitHandler<FormInput> = async (formData: FormInput) => {
     const sParse = providerSchema.safeParse(formData);
     if (sParse.error) {
       const err = sParse.error;
-      setErrors(err.errors.map((e) => e.path[0]+': '+e.message));
+      setErrors(err.errors.map((e) => e.path[0] + ": " + e.message));
     } else {
       const { data, error } = await supabase
         .from("providers")
-        .insert(sParse.data)
+        .upsert(
+          providerData ? { ...sParse.data, id: providerData.id } : sParse.data,
+          { onConflict: "id" },
+        )
         .select()
         .single();
 
@@ -75,91 +79,87 @@ export function ProviderForm({ providerData }: PropTypes) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register("id")}
-        className="input input-bordered flex items-center gap-2"
-        type="hidden"
-        name="id"
-        value={providerData?.id}
-      />
-      <label>Name:</label>
-      <input
-        {...register("name")}
-        className="input input-bordered flex items-center gap-2"
-        type="text"
-        id="name"
-        name="name"
-        value={providerData?.name}
-        required
-      />
+    <AuthHelper>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          {...register("id")}
+          className="input input-bordered flex items-center gap-2"
+          type="hidden"
+          name="id"
+          defaultValue={providerData?.id.toString() || ""}
+        />
+        <label>Name:</label>
+        <input
+          {...register("name")}
+          className="input input-bordered flex items-center gap-2"
+          type="text"
+          id="name"
+          name="name"
+          defaultValue={providerData?.name || ""}
+          required
+        />
 
+        <label>Email:</label>
+        <input
+          {...register("email")}
+          className="input input-bordered flex items-center gap-2"
+          type="email"
+          id="email"
+          name="email"
+          defaultValue={providerData?.email || ""}
+          required
+        />
 
-      <label>Email:</label>
-      <input
-        {...register("email")}
-        className="input input-bordered flex items-center gap-2"
-        type="email"
-        id="email"
-        name="email"
-        value={providerData?.email}
-        required
-      />
+        <label>Phone Number:</label>
+        <input
+          {...register("phone_number")}
+          className="input input-bordered flex items-center gap-2"
+          type="tel"
+          id="phone_number"
+          name="phone_number"
+          defaultValue={providerData?.phone_number || ""}
+        />
+        <label>Bio:</label>
 
-      <label>Phone Number:</label>
-      <input
-        {...register("phone_number")}
-        className="input input-bordered flex items-center gap-2"
-        type="tel"
-        id="phone_number"
-        name="phone_number"
-        value={providerData && providerData.phone_number}
-      />
-      <label>Bio:</label>
-
-      <input
-        {...register("bio")}
-        className="textarea textarea-bordered flex items-center gap-2"
-        id="bio"
-        name="bio"
-        value={providerData?.bio}
-      />
-      <label>location_name:</label>
-      <input
-        {...register("location_name")}
-        className="input input-bordered flex items-center gap-2"
-        type="text"
-        id="location_name"
-        name="location_name"
-        value={providerData?.location_name}
-      />
-      {/* <input
+        <input
+          {...register("bio")}
+          className="textarea textarea-bordered flex items-center gap-2"
+          id="bio"
+          name="bio"
+          defaultValue={providerData?.bio || ""}
+        />
+        <label>location_name:</label>
+        <input
+          {...register("location_name")}
+          className="input input-bordered flex items-center gap-2"
+          type="text"
+          id="location_name"
+          name="location_name"
+          defaultValue={providerData?.location_name || ""}
+        />
+        {/* <input
         {...register("location_geoJSON")}
         className="input input-bordered flex items-center gap-2"
         type="text"
         id="location_geoJSON"
         name="location_geoJSON"
-        value={providerData?.location_geoJSON?.toString()} //TODO create a geoJson converter to string and show on map
-      /> */}
-      <label>photo_link</label>
-      <input
-        {...register("photo_link")}
-        className="input input-bordered flex items-center gap-2"
-        type="url"
-        id="photo_link"
-        name="photo_link"
-        value={providerData?.photo_link}
-      />
+        defaultValue={providerData?.location_geoJSON?.toString()} //TODO create a geoJson converter to string and show on map
+        /> */}
+        <label>photo_link</label>
+        <input
+          {...register("photo_link")}
+          className="input input-bordered flex items-center gap-2"
+          type="url"
+          id="photo_link"
+          name="photo_link"
+          defaultValue={providerData?.photo_link || ""}
+        />
 
-      <button className="btn" type="submit">
-        Update Provider
-      </button>
-      <ul>
-
-      {errors && errors.map((e)=><li>
-        {e}
-      </li>)}
-      </ul>
-    </form>
+        <button className="btn" type="submit">
+          Update Provider
+        </button>
+        <ul>{errors && errors.map((e) => <li key={e}>{e}</li>)}</ul>
+      </form>
+    </AuthHelper>
   );
 }
