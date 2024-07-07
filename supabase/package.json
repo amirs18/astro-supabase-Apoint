@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bluebird": "^3.5.42",
+    "bluebird": "^3.7.2",
     "zod": "^3.23.8"
   }
 }
