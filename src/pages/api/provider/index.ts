@@ -66,6 +66,16 @@ export const POST: APIRoute = async ({ request }) => {
         location_name,
         phone_number,
         photo_link,
+        // availability_preferences: {
+        //   "0": [{ startTime: "09:00", endTime: "16:00" }],
+        //   "1": [{ startTime: "09:00", endTime: "16:00" }],
+        //   "2": [{ startTime: "09:00", endTime: "16:00" }],
+        //   "3": [{ startTime: "09:00", endTime: "16:00" }],
+        //   "4": [{ startTime: "09:00", endTime: "16:00" }],
+        //   "5": [],
+        //   "6": [],
+        // },
+        //TODO add availability_preferences input frontend
       })
       .select()
       .single();
@@ -78,6 +88,12 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 500 },
       );
     }
+    supabase.functions.invoke("generate-availability-initial", {
+      body: {
+        providerId: data.id,
+        providerAvailabilityPreferences: data.availability_preferences,
+      },
+    });
     return new Response(JSON.stringify(data), { status: 200 });
   }
 };
