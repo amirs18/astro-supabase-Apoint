@@ -20,12 +20,22 @@ Deno.serve(async (req: Request) => {
       availabilityPreferencesSchema.parse(providerAvailabilityPreferences),
     );
 
+    const delA = await supabaseClient
+      .from("availability")
+      .delete()
+      .eq("provider_id", providerId);
+
+    if (delA.error) {
+      throw delA.error;
+    }
+
     const insertAvailability = await supabaseClient
       .from("availability")
       .insert(t);
     if (insertAvailability.error) {
       throw insertAvailability.error;
     }
+    //TODO add a check if an old appointments are still inside the time frames
     return new Response(JSON.stringify(insertAvailability.data), {
       status: 200,
     });
