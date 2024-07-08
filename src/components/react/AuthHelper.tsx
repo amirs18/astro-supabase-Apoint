@@ -1,4 +1,4 @@
-import React, { useEffect, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { supabase } from "../../lib/supabase";
 import cookie from "cookie";
 
