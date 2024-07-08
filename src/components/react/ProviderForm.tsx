@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import type { Json } from "../../lib/database.types";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { type Database } from "../../lib/database.types";
 import { z } from "zod";
@@ -8,30 +7,22 @@ import axios from "axios";
 
 type providerResponse = Database["public"]["Tables"]["providers"]["Row"];
 
-type FormInput = {
-  bio: string | null;
-  email: string;
-  id: number;
-  location_geoJSON: Json;
-  location_name: string | null;
-  name: string;
-  phone_number: string | null;
-  photo_link: string | null;
-};
+type FormInput = z.infer<typeof providerSchema>;
 type PropTypes = {
-  providerData?: FormInput;
+  providerData?: providerResponse;
 };
 
-const geometrySchema = z
-  .object({
-    type: z.literal("Feature"),
-    properties: z.object({}),
-    geometry: z.object({
-      coordinates: z.number().array(),
-      type: z.literal("Point"),
-    }),
-  })
-  .nullable();
+// const geometrySchema = z
+//   .object({
+//     type: z.literal("Feature"),
+//     properties: z.object({}),
+//     geometry: z.object({
+//       coordinates: z.number().array(),
+//       type: z.literal("Point"),
+//     }),
+//   })
+//   .nullable();
+//TODO add proper geometry input
 
 const phoneRegex = new RegExp(
   /([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/,
@@ -82,13 +73,6 @@ export function ProviderForm({ providerData }: PropTypes) {
   return (
     <AuthHelper>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("id")}
-          className="input input-bordered flex items-center gap-2"
-          type="hidden"
-          name="id"
-          defaultValue={providerData?.id.toString() || ""}
-        />
         <label>Name:</label>
         <input
           {...register("name")}
