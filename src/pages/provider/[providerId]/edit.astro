@@ -3,6 +3,8 @@ import Base from "../../../layout/Base.astro";
 import { supabase } from "../../../lib/supabase";
 import { ServiceEdit } from "../../../components/react/ServicesEdit";
 import { ProviderForm } from "../../../components/react/ProviderForm";
+import { ProviderAvailabilityPreferences } from "../../../components/react/ProviderAvailabilityPreferences";
+import { availabilityPreferencesSchema } from "../../../lib/zod.schemas";
 
 const { providerId } = Astro.params;
 const providerID = Number(providerId);
@@ -15,7 +17,6 @@ const [provider, services] = await Promise.all([
 
 if (provider.error) {
   console.log("🚀 ~ provider.error:", provider.error);
-  /* eslint-disable-next-line */
   return Astro.redirect(`/provider/provider-error`);
 }
 ---
@@ -24,5 +25,20 @@ if (provider.error) {
   <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8 w-3/4">
     <ProviderForm providerData={provider.data} client:idle />
     <ServiceEdit services={services.data} providerId={providerID} client:idle />
+    <ProviderAvailabilityPreferences
+      availability_preferences={availabilityPreferencesSchema.parse(
+        provider.data.availability_preferences || {
+          "0": [],
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+        }
+      )}
+      providerId={provider.data.id}
+      client:idle
+    />
   </div>
 </Base>
