@@ -1,7 +1,9 @@
 import type { APIRoute } from "astro";
 import { supabase } from "../../../lib/supabase";
 import z from "zod";
-
+import { availabilityPreferencesSchema } from "../../../lib/zod.schemas";
+import pkg from "lodash";
+const { pickBy, identity } = pkg;
 // gets all the providers in the system
 export const GET: APIRoute = async () => {
   const { data, error } = await supabase.from("providers").select("*");
@@ -18,16 +20,16 @@ export const GET: APIRoute = async () => {
   return new Response(JSON.stringify(data));
 };
 
-const geometrySchema = z
-  .object({
-    type: z.literal("Feature"),
-    properties: z.object({}),
-    geometry: z.object({
-      coordinates: z.number().array(),
-      type: z.literal("Point"),
-    }),
-  })
-  .nullable();
+// const geometrySchema = z
+//   .object({
+//     type: z.literal("Feature"),
+//     properties: z.object({}),
+//     geometry: z.object({
+//       coordinates: z.number().array(),
+//       type: z.literal("Point"),
+//     }),
+//   })
+//   .nullable();
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
 );
@@ -43,6 +45,7 @@ const bodySchema = z.object({
     .nullable()
     .default(null),
   photo_link: z.string().nullable().default(null),
+  availability_preferences: availabilityPreferencesSchema.optional(),
 });
 // creates a new provider
 export const POST: APIRoute = async ({ request }) => {
@@ -55,8 +58,15 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 403 },
     );
   } else {
-    const { email, name, phone_number, bio, location_name, photo_link } =
-      parsedBody.data;
+    const {
+      email,
+      name,
+      phone_number,
+      bio,
+      location_name,
+      photo_link,
+      availability_preferences,
+    } = parsedBody.data;
     const { data, error } = await supabase
       .from("providers")
       .insert({
@@ -66,16 +76,15 @@ export const POST: APIRoute = async ({ request }) => {
         location_name,
         phone_number,
         photo_link,
-        // availability_preferences: {
-        //   "0": [{ startTime: "09:00", endTime: "16:00" }],
-        //   "1": [{ startTime: "09:00", endTime: "16:00" }],
-        //   "2": [{ startTime: "09:00", endTime: "16:00" }],
-        //   "3": [{ startTime: "09:00", endTime: "16:00" }],
-        //   "4": [{ startTime: "09:00", endTime: "16:00" }],
-        //   "5": [],
-        //   "6": [],
-        // },
-        //TODO add availability_preferences input frontend
+        availability_preferences: availability_preferences || {
+          "0": [],
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+        },
       })
       .select()
       .single();
@@ -97,9 +106,10 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify(data), { status: 200 });
   }
 };
-
+// updates a provider
 export const PATCH: APIRoute = async ({ request }) => {
   const parsedBody = bodySchema
+    .partial()
     .extend({ id: z.number() })
     .safeParse(await request.json());
   if (parsedBody.error) {
@@ -110,19 +120,13 @@ export const PATCH: APIRoute = async ({ request }) => {
       { status: 403 },
     );
   } else {
-    const { id, email, name, phone_number, bio, location_name, photo_link } =
-      parsedBody.data;
+    const cleanedObject = pickBy(parsedBody.data, identity);
     const { data, error } = await supabase
       .from("providers")
       .update({
-        email,
-        name,
-        bio,
-        location_name,
-        phone_number,
-        photo_link,
+        ...cleanedObject,
       })
-      .eq("id", id)
+      .eq("id", parsedBody.data.id)
       .select()
       .single();
 
@@ -133,6 +137,14 @@ export const PATCH: APIRoute = async ({ request }) => {
         }),
         { status: 500 },
       );
+    }
+    if (parsedBody.data.availability_preferences) {
+      supabase.functions.invoke("generate-availability-initial", {
+        body: {
+          providerId: data.id,
+          providerAvailabilityPreferences: data.availability_preferences,
+        },
+      });
     }
     return new Response(JSON.stringify(data), { status: 200 });
   }
