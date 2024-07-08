@@ -7,13 +7,13 @@ import { ServiceForm } from "./ServiceForm";
 export type service = Database["public"]["Tables"]["services"]["Row"];
 
 export function ServiceEdit({
-  services: initalServices,
+  services: initialServices,
   providerId,
 }: {
   services: service[] | null;
   providerId: number;
 }) {
-  const [services, setServices] = useState<service[] | null>(initalServices);
+  const [services, setServices] = useState<service[] | null>(initialServices);
   const [editingId, setEditingID] = useState<number>(0);
   if (services === null) return null;
 
