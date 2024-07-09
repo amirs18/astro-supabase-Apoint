@@ -17,7 +17,7 @@ const [provider, services, isAdmin] = await Promise.all([
 ]);
 
 if (provider.error) {
-  console.log("🚀 ~ provider.error:", provider.error);
+  console.error("/[providerId]/edit provider.error:", provider.error);
   return Astro.redirect(`/provider/provider-error`);
 }
 if (isAdmin.data === false) {
