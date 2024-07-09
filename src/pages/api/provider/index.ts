@@ -90,9 +90,10 @@ export const POST: APIRoute = async ({ request }) => {
       .single();
 
     if (error) {
+      console.error("🚀 ~ /api/provider POST:APIRoute= ~ error:", error);
       return new Response(
         JSON.stringify({
-          error: error.message,
+          error: error,
         }),
         { status: 500 },
       );
@@ -131,9 +132,10 @@ export const PATCH: APIRoute = async ({ request }) => {
       .single();
 
     if (error) {
+      console.error("🚀 ~ /api/provider PATCH:APIRoute= ~ error:", error);
       return new Response(
         JSON.stringify({
-          error: error.message,
+          error: error,
         }),
         { status: 500 },
       );

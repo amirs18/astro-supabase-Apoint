@@ -9,15 +9,19 @@ import { availabilityPreferencesSchema } from "../../../lib/zod.schemas";
 const { providerId } = Astro.params;
 const providerID = Number(providerId);
 
-const [provider, services] = await Promise.all([
+const [provider, services, isAdmin] = await Promise.all([
   supabase.from("providers").select("*").limit(1).eq("id", providerID).single(),
 
   supabase.from("services").select("*").eq("provider_id", providerID),
+  supabase.rpc("is_admin", { p_id: providerID }),
 ]);
 
 if (provider.error) {
   console.log("🚀 ~ provider.error:", provider.error);
   return Astro.redirect(`/provider/provider-error`);
+}
+if (isAdmin.data === false) {
+  return Astro.redirect(`/provider/${providerID}`);
 }
 ---
 
