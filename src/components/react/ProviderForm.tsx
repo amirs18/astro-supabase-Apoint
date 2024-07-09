@@ -59,11 +59,7 @@ export function ProviderForm({ providerData }: PropTypes) {
         : await axios.post<providerResponse>(`/api/provider`, sParse.data);
 
       if (status !== 200) {
-        console.log(
-          "🚀 ~ constonSubmit:SubmitHandler<FormInput>= ~ error:",
-          data,
-        );
-        //TODO: handle error
+        setErrors([data, "Please try again later or contact us"]);
       } else {
         window.location.href = `/provider/${data.id}`;
       }
