@@ -124,7 +124,8 @@ export function ProviderForm({ providerData }: PropTypes) {
         type="text"
         id="location_geoJSON"
         name="location_geoJSON"
-        defaultValue={providerData?.location_geoJSON?.toString()} //TODO create a geoJson converter to string and show on map
+        defaultValue={providerData?.location_geoJSON?.toString()} 
+        //TODO create a geoJson converter to string and show on map
         /> */}
         <label>photo_link</label>
         <input
