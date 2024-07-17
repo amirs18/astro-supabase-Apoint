@@ -7,22 +7,23 @@ type FormInput = {
   service_name: string;
   description: string;
   price: number;
+  duration: number
 };
 type PropTypes =
   | {
-      edit: true;
-      setServices: React.Dispatch<React.SetStateAction<service[] | null>>;
-      providerId: number;
-      service: service;
-      setEditing: React.Dispatch<React.SetStateAction<number>>;
-    }
+    edit: true;
+    setServices: React.Dispatch<React.SetStateAction<service[] | null>>;
+    providerId: number;
+    service: service;
+    setEditing: React.Dispatch<React.SetStateAction<number>>;
+  }
   | {
-      edit: false;
-      setServices: React.Dispatch<React.SetStateAction<service[] | null>>;
-      providerId: number;
-      service?: null;
-      setEditing?: null;
-    };
+    edit: false;
+    setServices: React.Dispatch<React.SetStateAction<service[] | null>>;
+    providerId: number;
+    service?: null;
+    setEditing?: null;
+  };
 export function ServiceForm({
   edit,
   setServices,
@@ -111,6 +112,15 @@ export function ServiceForm({
             defaultValue={edit ? service.description! : ""}
             placeholder={edit ? service.description! : "description"}
           />
+          <input
+            {...register("duration")}
+            className="input input-bordered flex items-center gap-2"
+            type="number"
+            id="duration"
+            name="duration"
+            defaultValue={edit ? service.duration! : ""}
+            placeholder={edit ? `${service.duration}` : 'duration'}
+          />
           <div className="card-actions justify-between">
             <input
               {...register("price")}
@@ -118,7 +128,7 @@ export function ServiceForm({
               type="number"
               id="price"
               name="price"
-              defaultValue={edit ? service.price : 0}
+              defaultValue={edit ? service.price : ""}
               placeholder={edit ? service.price.toString() : "price"}
             />
             <button type="submit" className="btn btn-primary">
