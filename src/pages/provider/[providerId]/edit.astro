@@ -10,7 +10,7 @@ const { providerId } = Astro.params;
 const providerID = Number(providerId);
 
 const [provider, services, isAdmin] = await Promise.all([
-  supabase.from("providers").select("*").limit(1).eq("id", providerID).single(),
+  supabase.rpc("get_provider_with_longlat", { input_id: providerID }).single(),
 
   supabase.from("services").select("*").eq("provider_id", providerID),
   supabase.rpc("is_admin", { p_id: providerID }),
@@ -25,9 +25,9 @@ if (isAdmin.data === false) {
 }
 ---
 
-<Base title={`Edit ${provider.data?.name}`}>
+<Base map={true} title={`Edit ${provider.data?.name}`}>
   <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-8 w-3/4">
-    <ProviderForm providerData={provider.data} client:idle />
+    <ProviderForm providerData={provider.data} client:only />
     <ServiceEdit services={services.data} providerId={providerID} client:idle />
     <ProviderAvailabilityPreferences
       availability_preferences={availabilityPreferencesSchema.parse(
@@ -41,7 +41,7 @@ if (isAdmin.data === false) {
           "6": [],
         }
       )}
-      providerId={provider.data.id}
+      providerId={provider.data.id!}
       client:idle
     />
   </div>
