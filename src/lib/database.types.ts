@@ -121,7 +121,7 @@ export type Database = {
           bio: string | null;
           email: string;
           id: number;
-          location_geoJSON: Json | null;
+          location: unknown | null;
           location_name: string | null;
           name: string;
           phone_number: string | null;
@@ -132,7 +132,7 @@ export type Database = {
           bio?: string | null;
           email: string;
           id?: number;
-          location_geoJSON?: Json | null;
+          location?: unknown | null;
           location_name?: string | null;
           name: string;
           phone_number?: string | null;
@@ -143,7 +143,7 @@ export type Database = {
           bio?: string | null;
           email?: string;
           id?: number;
-          location_geoJSON?: Json | null;
+          location?: unknown | null;
           location_name?: string | null;
           name?: string;
           phone_number?: string | null;
@@ -224,6 +224,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      get_provider_with_longlat: {
+        Args: {
+          input_id: number;
+        };
+        Returns: Database["public"]["CompositeTypes"]["provider_with_longlat"][];
+      };
       is_admin: {
         Args: {
           p_id: number;
@@ -239,7 +245,19 @@ export type Database = {
       [_ in never]: never;
     };
     CompositeTypes: {
-      [_ in never]: never;
+      provider_with_longlat: {
+        id: number | null;
+        email: string | null;
+        name: string | null;
+        bio: string | null;
+        photo_link: string | null;
+        phone_number: string | null;
+        location_name: string | null;
+        availability_preferences: Json | null;
+        location: unknown | null;
+        long: number | null;
+        lat: number | null;
+      };
     };
   };
   storage: {
