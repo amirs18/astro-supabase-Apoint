@@ -108,8 +108,8 @@ export function ProviderForm({ providerData }: PropTypes) {
             {...register("location")}
             className="input input-bordered flex items-center gap-2"
             type="text"
-            id="location_long"
-            name="location_long"
+            id="location"
+            name="location"
             defaultValue={`POINT(${providerData?.long} ${providerData?.lat})`}
           />
           <button
