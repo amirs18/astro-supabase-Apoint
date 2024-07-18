@@ -77,7 +77,7 @@ function ProviderAvailabilityPreferences({
         );
       })}
       <button className="btn" onClick={handleSubmit}>
-        Update working hours{" "}
+        Update working hours
       </button>
     </>
   );
