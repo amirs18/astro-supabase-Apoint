@@ -29,3 +29,24 @@ export const availabilityPreferencesSchema = z.object({
 export type AvailabilityPreferences = z.infer<
   typeof availabilityPreferencesSchema
 >;
+
+const phoneRegex = new RegExp(
+  /([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/,
+);
+const pointRegex = new RegExp(/^POINT\(-?\d+\.\d+ \-?\d+\.\d+\)$/);
+export const providerSchema = z.object({
+  email: z.string().email(),
+  name: z.string(),
+  bio: z.string().nullable().default(null),
+  location: z.string().regex(pointRegex, "invalid Point input").nullable(),
+  location_name: z.string().nullable().default(null),
+  phone_number: z
+    .string()
+    .regex(phoneRegex, "Invalid Phone Number!")
+    .nullable()
+    .default(null),
+  photo_link: z.string().nullable().default(null),
+});
+export const providerWithAvailabilityPreferencesSchema = providerSchema.extend({
+  availability_preferences: availabilityPreferencesSchema.optional(),
+});
