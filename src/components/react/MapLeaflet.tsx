@@ -1,7 +1,7 @@
 import { LatLng, LatLngBounds } from "leaflet";
 import { useEffect, useState, type ReactNode } from "react";
 import type { UseFormSetValue } from "react-hook-form";
-import { MapContainer, TileLayer, useMap, Popup, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker } from "react-leaflet";
 import type { providerSchema } from "../../lib/zod.schemas";
 import z from "zod";
 
