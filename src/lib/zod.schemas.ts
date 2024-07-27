@@ -38,7 +38,7 @@ export const providerSchema = z.object({
   email: z.string().email(),
   name: z.string(),
   bio: z.string().nullable().default(null),
-  location: z.string().regex(pointRegex, "invalid Point input").nullable(),
+  location: z.string().regex(pointRegex, "invalid Point input").or(z.literal('')),
   location_name: z.string().nullable().default(null),
   phone_number: z
     .string()

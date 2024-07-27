@@ -4,7 +4,7 @@ interface Props {
   map?: boolean;
 }
 
-const description = "Astro and Supabase demo app";
+const description = "Apoint";
 const { title, map } = Astro.props;
 const ogImageURL = new URL("hero.png", Astro.site).href;
 const canonicalURL = new URL(Astro.url).href;
@@ -42,6 +42,7 @@ const { user } = Astro.locals;
         />
       )
     }
+    <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
 
   <body class="flex flex-col h-full w-full">
