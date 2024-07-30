@@ -2,6 +2,7 @@
 import { supabase } from "../../lib/supabase";
 
 const {normallized} =Astro.props
+//TODO add cacheing to evry input
 
 const promises =  Promise.all([
     supabase.from("providers").select("*").textSearch("name",normallized,),
