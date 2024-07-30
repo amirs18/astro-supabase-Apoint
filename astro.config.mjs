@@ -9,6 +9,9 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://astro-supabase-apoint.vercel.app",
   output: "server",
+  experimental: {
+    serverIslands: true,
+  },
   adapter: vercel(),
   integrations: [tailwind(), sitemap(), react()],
   vite: {

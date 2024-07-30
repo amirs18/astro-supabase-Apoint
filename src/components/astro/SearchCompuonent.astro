@@ -1,0 +1,23 @@
+---
+import { supabase } from "../../lib/supabase";
+
+const {normallized} =Astro.props
+
+const promises =  Promise.all([
+    supabase.from("providers").select("*").textSearch("name",normallized,),
+    supabase.from("providers").select('*').textSearch('bio',normallized),
+    supabase.from("services").select("*").textSearch("description",normallized),
+    supabase.from("services").select("*").textSearch("service_name",normallized,)
+]);
+const [providers1, providers2, services1, services2] = await promises;
+
+export type SerchOutputPromises = typeof promises
+
+
+---
+<Fragment>
+    {providers1?.data}
+    {providers2?.data}
+    {services1?.data}
+    {services2?.data}
+</Fragment>
