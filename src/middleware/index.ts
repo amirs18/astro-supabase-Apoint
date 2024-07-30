@@ -1,6 +1,6 @@
 import { sequence, defineMiddleware } from "astro:middleware";
 import { supabase } from "../lib/supabase";
-import micromatch from "micromatch";
+import picomatch from "picomatch";
 
 const protectedRoutes = [
   "/dashboard(|/)",
@@ -22,7 +22,7 @@ const auth = defineMiddleware(async function (
   });
   locals.user = data?.user;
 
-  if (micromatch.isMatch(url.pathname, protectedRoutes)) {
+  if (picomatch.isMatch(url.pathname, protectedRoutes)) {
     if (!accessToken || !refreshToken) {
       return redirect("/signin");
     }
@@ -49,13 +49,13 @@ const auth = defineMiddleware(async function (
     });
   }
 
-  if (micromatch.isMatch(url.pathname, redirectRoutes)) {
+  if (picomatch.isMatch(url.pathname, redirectRoutes)) {
     if (accessToken && refreshToken) {
       return redirect("/dashboard");
     }
   }
 
-  if (micromatch.isMatch(url.pathname, proptectedAPIRoutes)) {
+  if (picomatch.isMatch(url.pathname, proptectedAPIRoutes)) {
     // Check for tokens
     if (!accessToken || !refreshToken) {
       return new Response(

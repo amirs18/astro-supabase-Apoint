@@ -4,14 +4,15 @@ import tailwind from "@astrojs/tailwind";
 import MillionCompiler from "@million/lint";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+// import deno from "@deno/astro-adapter";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://astro-supabase-apoint.vercel.app",
   output: "server",
-  adapter: vercel(),
-  integrations: [tailwind(), sitemap(), react()],
-  vite: {
-    plugins: [MillionCompiler.vite()],
+  experimental: {
+    serverIslands: true,
   },
+  adapter: /*deno({ port: 4321 })*/ vercel(),
+  integrations: [tailwind(), sitemap(), react()],
 });
