@@ -11,5 +11,8 @@ export default defineConfig({
   site: "https://astro-supabase-apoint.vercel.app",
   output: "server",
   adapter: /*deno({ port: 4321 })*/ vercel(),
+  experimental: {
+    serverIslands: true,
+  },
   integrations: [tailwind(), sitemap(), react()],
 });

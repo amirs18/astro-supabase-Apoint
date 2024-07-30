@@ -1,0 +1,21 @@
+---
+import Base from "../layout/Base.astro"
+import SearchCompuonent from "../components/astro/SearchCompuonent.astro"
+const TITLE = 'search'
+
+
+const searchString = Astro.url.searchParams.get('search') ||""
+const normallized:string=searchString.padStart(searchString.length+2,"`'")
+.padEnd(searchString.length+4,"`'")
+.replaceAll(" ",`' & '`)
+
+
+
+---
+
+
+<Base title={TITLE} map={true}>
+    <SearchCompuonent normallized={normallized} server:defer>
+        <div slot="fallback">loading</div>
+    </SearchCompuonent>
+</Base>
