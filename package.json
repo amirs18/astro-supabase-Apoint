@@ -7,7 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "check": "astro check",
-    "preview": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs",
+    "preview": "astro preview",
     "format": "prettier --write . --plugin=prettier-plugin-astro",
     "astro": "astro"
   },
