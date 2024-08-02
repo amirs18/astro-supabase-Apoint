@@ -12,9 +12,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
-        redirectTo: import.meta.env.DEV
-          ? "http://localhost:4321/api/auth/callback"
-          : "https://astro-supabase-apoint.vercel.app/api/auth/callback",
+        redirectTo: import.meta.env.AUTH_CALLBACK_URL,
       },
     });
 
