@@ -1,0 +1,21 @@
+---
+import { supabase } from "../../lib/supabase";
+
+const promises = Promise.all([
+  supabase.from("providers").select("name"),
+  supabase.from("services").select("service_name"),
+]);
+const [providers1, services1] = await promises;
+---
+
+<div id="autocomplete">
+  <input list="services_providers" name="browser" id="browser" />
+  <datalist id="services_providers">
+    <optgroup label="providers">
+      {providers1.data?.map((p) => <option>{p.name}</option>)}
+    </optgroup>
+    <optgroup label="services">
+      {services1.data?.map((s) => <option>{s.service_name}</option>)}
+    </optgroup>
+  </datalist>
+</div>
