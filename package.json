@@ -42,8 +42,8 @@
   "devDependencies": {
     "@types/cookie": "^0.6.0",
     "@types/leaflet": "^1.9.12",
-    "@types/picomatch": "^3.0.0",
     "@types/lodash": "^4.17.7",
+    "@types/micromatch": "^4.0.9",
     "@types/react": "^18.3.3",
     "daisyui": "^4.12.10",
     "prettier": "^3.3.3",
