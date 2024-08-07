@@ -1,8 +1,8 @@
 ---
-import Base from "../layout/Base.astro";
 import SearchCompuonent from "../components/astro/SearchCompuonent.astro";
 import SerchAutocomplete from "../components/astro/SerchAutocomplete.astro";
-const TITLE = "search";
+import Base from "../layout/Base.astro";
+// import SerchAutocomplete from "../components/astro/SerchAutocomplete.astro";
 
 const searchString = Astro.url.searchParams.get("search") || "";
 const normallized: string = searchString
@@ -11,9 +11,9 @@ const normallized: string = searchString
   .replaceAll(" ", `' & '`);
 ---
 
-<Base title={TITLE} map={true}>
+<Base title={searchString} map={true}>
   <SerchAutocomplete />
   <SearchCompuonent normallized={normallized} server:defer>
-    <div slot="fallback">loading</div>
+    <div slot="fallback">loading...</div>
   </SearchCompuonent>
 </Base>

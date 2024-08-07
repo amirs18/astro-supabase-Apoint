@@ -6,16 +6,73 @@ const promises = Promise.all([
   supabase.from("services").select("service_name"),
 ]);
 const [providers1, services1] = await promises;
+
+export const prerender = true;
 ---
 
-<div id="autocomplete">
-  <input list="services_providers" name="browser" id="browser" />
-  <datalist id="services_providers">
-    <optgroup label="providers">
-      {providers1.data?.map((p) => <option>{p.name}</option>)}
-    </optgroup>
-    <optgroup label="services">
-      {services1.data?.map((s) => <option>{s.service_name}</option>)}
-    </optgroup>
-  </datalist>
-</div>
+<serch-autocomplete
+  data-providers1={JSON.stringify(providers1.data)}
+  data-services1={JSON.stringify(services1)}
+>
+  <div id="autocomplete" class="mt-4">
+    <label class="input input-bordered flex items-center gap-2">
+      <input
+        autocomplete="off"
+        type="text"
+        class="grow"
+        list="services_providers"
+        placeholder="Search"
+        id="services_providers"
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        class="h-4 w-4 opacity-70"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </label>
+    <script>
+      import { debounce } from "lodash";
+      function debouncedOnInputChange(func: (e: Event) => void) {
+        const DEBOUNCE_DELAY = 250;
+        return debounce(func, DEBOUNCE_DELAY);
+      }
+      class SerchAutocomplete extends HTMLElement {
+        providers1: {
+          name: string;
+        }[] = [];
+        constructor() {
+          super();
+          const providers: typeof this.providers1 = JSON.parse(
+            this.dataset.providers1!
+          );
+          this.providers1 = providers;
+
+          async function onInputChange(this: any, e: Event) {
+            const input = (e.target as HTMLInputElement).value;
+            const html = `
+            <ul>
+              ${providers
+                .filter((p) => p.name.startsWith(input))
+                .map((p) => `<li>${p.name}</li>`)}
+            </ul>`;
+            document.getElementById("res")!.innerHTML = html.replaceAll(
+              ",",
+              ""
+            );
+          }
+          document
+            .getElementById("services_providers")
+            ?.addEventListener("input", debouncedOnInputChange(onInputChange));
+        }
+      }
+      customElements.define("serch-autocomplete", SerchAutocomplete);
+    </script>
+    <div id="res"></div>
+  </div>
+</serch-autocomplete>
