@@ -8,11 +8,10 @@ const description = "Apoint";
 const { title, map } = Astro.props;
 const ogImageURL = new URL("hero.png", Astro.site).href;
 const canonicalURL = new URL(Astro.url).href;
-const theme = Astro.cookies.get("theme");
 const { user } = Astro.locals;
 ---
 
-<html data-theme={theme?.value} id="html-tag" 'lang="en" '>
+<html id="html-tag" 'lang="en" '>
   <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -125,7 +124,7 @@ const { user } = Astro.locals;
                 id="theme"
                 type="checkbox"
                 class="toggle toggle-primary toggle-md"
-                checked={theme?.value === "light" ? false : true}
+                checked={true}
               />
             </label>
           </div>
@@ -138,6 +137,12 @@ const { user } = Astro.locals;
   </body>
 
   <script>
+    const theme = document.cookie.includes("dark") ? "dark" : "light";
+    document.getElementById("html-tag")?.setAttribute("data-theme", theme);
+    document
+      .getElementById("theme")
+      ?.setAttribute("checked", `${theme === "dark"}`);
+
     document.getElementById("theme")?.addEventListener("change", () => {
       const theme = document
         .getElementById("html-tag")
