@@ -64,6 +64,14 @@ Apoint is a web application built with Astro and Supabase that allows users to b
   ```
 
 4. **Run the development server**
+
    ```bash
    pnpm dev
+   ```
+
+5. for deno change packege.json to
+   ```json
+   "scripts":{
+   "preview":"deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs"
+   }
    ```
