@@ -61,6 +61,7 @@ Apoint is a web application built with Astro and Supabase that allows users to b
   ```env
   PUBLIC_SUPABASE_URL=your-supabase-url
   PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+  AUTH_CALLBACK_URL=http://localhost:4321/api/auth/callback
   ```
 
 4. **Run the development server**
